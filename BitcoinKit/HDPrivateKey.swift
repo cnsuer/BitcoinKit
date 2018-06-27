@@ -43,6 +43,10 @@ public class HDPrivateKey {
         self.childIndex = childIndex
     }
 
+	public func privateKey() -> PrivateKey {
+		return PrivateKey(data: raw, network: network)
+	}
+	
     public func publicKey() -> HDPublicKey {
         return HDPublicKey(privateKey: self, chainCode: chainCode, network: network, depth: depth, fingerprint: fingerprint, childIndex: childIndex)
     }

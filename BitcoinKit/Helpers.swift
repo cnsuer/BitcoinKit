@@ -8,6 +8,13 @@
 
 import Foundation
 
+public func hexToData( hex: String) -> Data {
+	return Data(hex: hex)!
+}
+public func dataToHex(_ data: Data) -> String {
+	return data.hex
+}
+
 func ipv4(from data: Data) -> String {
     return Data(data.dropFirst(12)).map { String($0) }.joined(separator: ".")
 }

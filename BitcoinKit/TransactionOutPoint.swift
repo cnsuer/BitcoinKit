@@ -9,21 +9,26 @@
 import Foundation
 
 public struct TransactionOutPoint {
-    /// The hash of the referenced transaction.
-    public let hash: Data
-    /// The index of the specific output in the transaction. The first output is 0, etc.
-    public let index: UInt32
-
-    public func serialized() -> Data {
-        var data = Data()
-        data += hash.reversed()
-        data += index
-        return data
-    }
-
-    static func deserialize(_ byteStream: ByteStream) -> TransactionOutPoint {
-        let hash = Data(byteStream.read(Data.self, count: 32).reversed())
-        let index = byteStream.read(UInt32.self)
-        return TransactionOutPoint(hash: hash, index: index)
-    }
+	/// The hash of the referenced transaction.
+	public let hash: Data
+	/// The index of the specific output in the transaction. The first output is 0, etc.
+	public let index: UInt32
+	
+	public init(hash: Data, index: UInt32){
+		self.hash = hash
+		self.index = index
+	}
+	
+	public func serialized() -> Data {
+		var data = Data()
+		data += hash.reversed()
+		data += index
+		return data
+	}
+	
+	public static func deserialize(_ byteStream: ByteStream) -> TransactionOutPoint {
+		let hash = Data(byteStream.read(Data.self, count: 32).reversed())
+		let index = byteStream.read(UInt32.self)
+		return TransactionOutPoint(hash: hash, index: index)
+	}
 }
