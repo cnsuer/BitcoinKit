@@ -46,9 +46,9 @@ public struct Address {
         let network: Network
         let addressPrefix = pubKeyHash[0]
         switch addressPrefix {
-        case Network.mainnet.pubkeyhash:
-            network = .mainnet
-        case Network.testnet.pubkeyhash:
+        case Network.btcMainnet.version:
+            network = .btcMainnet
+        case Network.testnet.version:
             network = .testnet
         default:
             throw AddressError.wrongNetwork

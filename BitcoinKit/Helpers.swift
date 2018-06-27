@@ -9,7 +9,7 @@
 import Foundation
 
 public func hexToData( hex: String) -> Data {
-	return Data(hex: hex)!
+	return Data(hex: hex)
 }
 public func dataToHex(_ data: Data) -> String {
 	return data.hex

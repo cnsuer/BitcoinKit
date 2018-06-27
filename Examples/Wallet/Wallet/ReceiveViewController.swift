@@ -50,10 +50,11 @@ class ReceiveViewController: UIViewController {
     }
 
     func receiveAddress() -> String {
-        let wallet = AppController.shared.wallet!
-        let externalIndex = AppController.shared.externalIndex
-        let address = try! wallet.receiveAddress(index: externalIndex)
-        return address.base58
+//        let wallet = AppController.shared.wallet!
+//        let externalIndex = AppController.shared.externalIndex
+//        let address = try! wallet.receiveAddress(index: externalIndex)
+//        return address.base58
+		return ""
     }
 
     private func updateUI() {

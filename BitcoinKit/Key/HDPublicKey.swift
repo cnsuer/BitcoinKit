@@ -47,7 +47,7 @@ public class HDPublicKey {
 
     public func extended() -> String {
         var data = Data()
-        data += network.xpubkey.bigEndian
+        data += network.hdPublicKeyPrefix.bigEndian
         data += depth.littleEndian
         data += fingerprint.littleEndian
         data += childIndex.littleEndian
@@ -58,7 +58,7 @@ public class HDPublicKey {
     }
     
     public func toAddress() -> String {
-        let hash = Data([network.pubkeyhash]) + Crypto.sha256ripemd160(raw)
+        let hash = Data([network.version]) + Crypto.sha256ripemd160(raw)
         return publicKeyHashToAddress(hash)
     }
 
