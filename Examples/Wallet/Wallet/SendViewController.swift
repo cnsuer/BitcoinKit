@@ -12,31 +12,62 @@ import BitcoinKit
 class SendViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+	}
+	
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		creatWallet()
+	}
+	
+	func creatWallet()  {
+		
+		let m = UserDefaults.standard.array(forKey: "mnemonics")
+		
+		if m != nil {
+			
+			getHDWallet()
+			
+			return
+		}
 		let mnemonic: [String] = ["pattern", "run", "stay", "perfect", "swim", "grow", "win", "nasty", "digital", "feel", "labor", "good"]
+		UserDefaults.standard.set(mnemonic, forKey: "mnemonics")
 
 		let seed = Mnemonic.seed(mnemonic: mnemonic)
+		
+		//btcMainnet
 		let wallet = HDWallet(seed: seed, network: Network.btcMainnet)
 		var address = try! wallet.generateBtcAddress(at: 0)
-		print(address) //121x5Nj7KKjSTZLprRxd1rRA9UkQA9iNTw
-//		var network = try! wallet.hdPrivateKey().network
+		print("creatWallet BtcAddress: " + address) //121x5Nj7KKjSTZLprRxd1rRA9UkQA9iNTw
+		wallet.saveHDPrivateKey(password: "123456")
 		
-//		print(network.name)
-
+		//ethMainnet
 		wallet.network = Network.ethMainnet
 		address = try! wallet.generateEthAddress(at: 0)
-
-		print(address) //0x5A17F8d55e18e8f67250125DA3025d32633f8Bc9
-//		print(network.name)
-
+		print("creatWallet EthAddress: " + address) //0x5A17F8d55e18e8f67250125DA3025d32633f8Bc9
+		wallet.saveHDPrivateKey(password: "123456")
+		
 		//let privateKey = try! PrivateKey(wif: "cMfWomdtnUdar3gYyWKaSUEuNKh7sU4U4WEWXJ4xqFPS4htEsjy7")
 		//let address = privateKey.publicKey().toAddress();
 	}
 	
-	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-		receiveAddress()
+	func getHDWallet() {
+		let password = "123456"
+		
+		if let wallet = HDWallet(password: password, network: .btcMainnet) {
+			var address = try! wallet.generateBtcAddress(at: 0)
+			print("getHDWallet BtcAddress:" + address)
+			wallet.network = Network.ethMainnet
+			address = try! wallet.generateEthAddress(at: 0)
+			print("getHDWallet EthAddress: " + address)
+		}else{
+			print("密码错误!!!")
+		}
+		
+		
+		
 	}
 	
-	func receiveAddress() {
+	func btcRawTransaction() {
 //		let wallet = AppController.shared.wallet!
 //		
 //		// Transaction in testnet3

@@ -53,6 +53,12 @@ public final class HDWallet {
         // Public derivation is used at this level.
 
     }
+	public init?(password: String, network: Network = .testnet, user: String = "default") {
+		guard let masterPrivateKey = HDPrivateKey(password: password, network: network, user: user) else { return nil }
+		self.masterPrivateKey = masterPrivateKey
+		self.network = network
+	}
+	
 	// MARK: - Public Methods
 	//PrivateKey
 	public func generateEthPrivateKey(at index: UInt32) throws -> PrivateKey {
@@ -87,8 +93,8 @@ public final class HDWallet {
 	}
 
 	//保存
-	public func saveHDPrivateKey(password: String) {
-		self.masterPrivateKey.save(password: password)
+	public func saveHDPrivateKey(password: String, user: String = "default") {
+		self.masterPrivateKey.save(password: password, user: user)
 	}
 	
 	/// Sign signs rlp encoding hash of specified raw transaction

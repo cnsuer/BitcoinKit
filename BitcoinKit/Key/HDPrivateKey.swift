@@ -26,6 +26,15 @@ public class HDPrivateKey {
         self.fingerprint = 0
         self.childIndex = 0
     }
+	
+	init(privateKey: Data, chainCode: Data, network: Network, depth: UInt8, fingerprint: UInt32, childIndex: UInt32) {
+		self.raw = privateKey
+		self.chainCode = chainCode
+		self.network = network
+		self.depth = depth
+		self.fingerprint = fingerprint
+		self.childIndex = childIndex
+	}
 
     public convenience init(seed: Data, network: Network) {
         let hmac = Crypto.hmacsha512(data: seed, key: "Bitcoin seed".data(using: .ascii)!)
@@ -34,14 +43,29 @@ public class HDPrivateKey {
         self.init(privateKey: privateKey, chainCode: chainCode, network: network)
     }
 
-    init(privateKey: Data, chainCode: Data, network: Network, depth: UInt8, fingerprint: UInt32, childIndex: UInt32) {
-        self.raw = privateKey
-        self.chainCode = chainCode
-        self.network = network
-        self.depth = depth
-        self.fingerprint = fingerprint
-        self.childIndex = childIndex
-    }
+	public convenience init?(password: String, network: Network, user: String) {
+		let userDefauts = UserDefaults.standard
+		
+		let salt = "Ut3Opm78U76VbwoP4Vx6UdfN234Esaz9"
+		let pbkdf2Password = try! PKCS5.PBKDF2(password: password.bytes, salt: salt.bytes, keyLength: 16).calculate()
+		
+		let keys = HDPrivateKey.getStorageKey(network: network, user: user)
+
+		let readPbkdf2Password = userDefauts.string(forKey: keys.passwordKey)
+		
+		if pbkdf2Password.toHexString() != readPbkdf2Password {
+			
+			return nil
+		}
+		
+		let hdPrivateKeyRaw = userDefauts.data(forKey: keys.privateKey)
+		let hdPrivateKeyChainCode = userDefauts.data(forKey: keys.chainCodeKey)
+
+		let theRaw = HDPrivateKey.Decode_AES(dataToDecode: hdPrivateKeyRaw!, key: pbkdf2Password)
+		let theChainCode = HDPrivateKey.Decode_AES(dataToDecode: hdPrivateKeyChainCode!, key: pbkdf2Password)
+		
+		self.init(privateKey: theRaw, chainCode: theChainCode, network: network)
+	}
 	
 	//hdPublicKey
 	public func hdPublicKey() -> HDPublicKey {
@@ -57,19 +81,24 @@ public class HDPrivateKey {
 	}
 	
 	//保存
-	public func save(password: String) {
+	public func save(password: String, user: String) {
 		
 		let salt = "Ut3Opm78U76VbwoP4Vx6UdfN234Esaz9"
 		let pbkdf2Password = try! PKCS5.PBKDF2(password: password.bytes, salt: salt.bytes,
 											   keyLength: 16).calculate()
 		
+		
+		
 		let userDefauts = UserDefaults.standard
-		userDefauts.setValue(pbkdf2Password.toHexString(), forKey: "pbkdf2Password")
+		let keys = HDPrivateKey.getStorageKey(network: network, user: user)
+
+		userDefauts.setValue(pbkdf2Password.toHexString(), forKey: keys.passwordKey)
 		
 		let hdPrivateKeyRaw = HDPrivateKey.endcode_AES(dataToEncode: raw, key: pbkdf2Password)
-		userDefauts.set(hdPrivateKeyRaw, forKey: "HDPrivateKeyRaw")
 		let hdPrivateKeyChainCode = HDPrivateKey.endcode_AES(dataToEncode: chainCode, key: pbkdf2Password)
-		userDefauts.set(hdPrivateKeyChainCode, forKey: "HDPrivateKeyChainCode")
+		
+		userDefauts.set(hdPrivateKeyRaw, forKey: keys.privateKey)
+		userDefauts.set(hdPrivateKeyChainCode, forKey: keys.chainCodeKey)
 	}
 
 
@@ -104,6 +133,21 @@ public enum DerivationError : Error {
 }
 
 extension HDPrivateKey {
+	private static	func getStorageKey(network: Network, user: String) -> (privateKey: String, chainCodeKey: String, passwordKey: String) {
+		var keyPrefix = user + "TestNet"
+		
+		switch network {
+		case .btcMainnet:
+			keyPrefix = "BtcMainnet"
+			break
+		case .ethMainnet:
+			keyPrefix = "EthMainnet"
+			break
+		default: break
+		}
+		
+		return (keyPrefix +  "HDPrivateKeyRaw", keyPrefix + "HDPrivateKeyChainCode", keyPrefix + "pbkdf2Password")
+	}
 	
 	private static func endcode_AES(dataToEncode: Data, key: [UInt8]) -> Data {
 		var result: [UInt8] = []
