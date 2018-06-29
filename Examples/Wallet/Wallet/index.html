@@ -63,17 +63,17 @@ function(e){var t=i,r=t.lib,n=r.WordArray,o=r.Hasher,a=t.algo,f=n.create([0,1,2,
 		</script>
 
 		<script type="text/javascript">
-			function getPrivateKey(str){
+			function getPrivateKey(str,message){
 				// if (theObj.isBuffer) {
 				// 	console.log(theObj)
 				// 	sign(buff)
 				// }else{
 					var key1 = buffer.Buffer.from(str, 'hex')
-					sign(key1)
+					sign(key1,message)
 
 				// }
 			}
-			function sign(privateKeyBuffer){
+			function sign(privateKeyBuffer,message){
 				// var network = bitcoinJs.networks.testnet
    	// 			var keyPair = bitcoinJs.ECPair.fromWIF(wif,network) // 导入私钥
 			 //    var pubKey = keyPair.getPublicKeyBuffer() // 返回Buffer对象
@@ -81,7 +81,7 @@ function(e){var t=i,r=t.lib,n=r.WordArray,o=r.Hasher,a=t.algo,f=n.create([0,1,2,
 
 				//let s = "\x18Bitcoin Signed Message:\n"
 
-				var message = '123456'
+				// var message = '123456'
 
 				var signature = bitMessage.sign(message, privateKeyBuffer, true)
 				var base64Signature = signature.toString('base64')

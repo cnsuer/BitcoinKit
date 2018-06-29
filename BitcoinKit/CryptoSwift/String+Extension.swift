@@ -15,7 +15,7 @@
 
 /** String extension */
 extension String {
-	func stripHexPrefix() -> String {
+	public func stripHexPrefix() -> String {
 		var hex = self
 		let prefix = "0x"
 		if hex.hasPrefix(prefix) {
