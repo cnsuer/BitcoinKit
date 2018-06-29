@@ -15,7 +15,7 @@ public class HDPrivateKey {
     public let fingerprint: UInt32
     public let childIndex: UInt32
 
-    let raw: Data
+    public let raw: Data
     let chainCode: Data
 
     public init(privateKey: Data, chainCode: Data, network: Network) {
@@ -73,10 +73,10 @@ public class HDPrivateKey {
 	}
 
 	//PrivateKey
-	public func ethPrivateKey() -> PrivateKey {
+	func ethPrivateKey() -> PrivateKey {
 		return PrivateKey(data: Data(hex: "0x") + raw, network: network)
 	}
-	public func btcPrivateKey() -> PrivateKey {
+	func btcPrivateKey() -> PrivateKey {
 		return PrivateKey(data: raw, network: network)
 	}
 	

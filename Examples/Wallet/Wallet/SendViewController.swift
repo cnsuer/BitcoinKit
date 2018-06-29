@@ -35,7 +35,7 @@ class SendViewController: UIViewController {
 		let seed = Mnemonic.seed(mnemonic: mnemonic)
 		
 		//btcMainnet
-		let wallet = HDWallet(seed: seed, network: Network.btcMainnet)
+		let wallet = HDWallet(seed: seed, network: Network.testnet)
 		var address = try! wallet.generateBtcAddress(at: 0)
 		print("creatWallet BtcAddress: " + address) //121x5Nj7KKjSTZLprRxd1rRA9UkQA9iNTw
 		wallet.saveHDPrivateKey(password: "123456")
@@ -62,9 +62,6 @@ class SendViewController: UIViewController {
 		}else{
 			print("密码错误!!!")
 		}
-		
-		
-		
 	}
 	
 	func btcRawTransaction() {

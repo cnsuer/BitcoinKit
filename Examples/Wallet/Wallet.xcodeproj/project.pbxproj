@@ -21,6 +21,7 @@
 		1482B5F62027A2590098B612 /* CreateWalletViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482B5F52027A2590098B612 /* CreateWalletViewController.swift */; };
 		1482B5FA2028314B0098B612 /* KeychainAccess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1482B5F92028314A0098B612 /* KeychainAccess.framework */; };
 		1482B5FB2028314B0098B612 /* KeychainAccess.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1482B5F92028314A0098B612 /* KeychainAccess.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		182949E020E5E9C400FD68D8 /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 182949DF20E5E9C400FD68D8 /* index.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,6 +54,8 @@
 		1482B5F32027A01B0098B612 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		1482B5F52027A2590098B612 /* CreateWalletViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateWalletViewController.swift; sourceTree = "<group>"; };
 		1482B5F92028314A0098B612 /* KeychainAccess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeychainAccess.framework; path = Carthage/Build/iOS/KeychainAccess.framework; sourceTree = "<group>"; };
+		182949DF20E5E9C400FD68D8 /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		18398F9720E4D2F900287D0B /* Wallet-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Wallet-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +91,7 @@
 		14749516201FBC3E006D1CF8 /* Wallet */ = {
 			isa = PBXGroup;
 			children = (
+				182949DF20E5E9C400FD68D8 /* index.html */,
 				14749517201FBC3E006D1CF8 /* AppDelegate.swift */,
 				1482B5F32027A01B0098B612 /* AppController.swift */,
 				1482B5EB20279B3D0098B612 /* HomeViewController.swift */,
@@ -99,6 +103,7 @@
 				14749522201FBC3E006D1CF8 /* LaunchScreen.storyboard */,
 				14749520201FBC3E006D1CF8 /* Assets.xcassets */,
 				14749525201FBC3E006D1CF8 /* Info.plist */,
+				18398F9720E4D2F900287D0B /* Wallet-Bridging-Header.h */,
 			);
 			path = Wallet;
 			sourceTree = "<group>";
@@ -145,6 +150,7 @@
 				TargetAttributes = {
 					14749513201FBC3E006D1CF8 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Manual;
 					};
 				};
@@ -173,6 +179,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14749524201FBC3E006D1CF8 /* LaunchScreen.storyboard in Resources */,
+				182949E020E5E9C400FD68D8 /* index.html in Resources */,
 				14749521201FBC3E006D1CF8 /* Assets.xcassets in Resources */,
 				1474951F201FBC3E006D1CF8 /* Main.storyboard in Resources */,
 			);
@@ -328,6 +335,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -340,6 +348,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kishikawakatsumi.Wallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Wallet/Wallet-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -349,6 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -361,6 +372,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kishikawakatsumi.Wallet;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Wallet/Wallet-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
